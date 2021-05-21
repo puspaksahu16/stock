@@ -25,3 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index')->name('home');
 });
 
+// DEEPA
+
+Route::resource('test', 'BillingController');
+
