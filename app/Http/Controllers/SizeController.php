@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Billing;
-use App\Customer;
-use App\Product;
+use App\size;
 use Illuminate\Http\Request;
 
-class BillingController extends Controller
+class SizeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +14,8 @@ class BillingController extends Controller
      */
     public function index()
     {
-        return view('admin.billings.index');
+        $sizes = size::all();
+        return view('admin.sizes.index', compact('sizes'));
     }
 
     /**
@@ -26,18 +25,7 @@ class BillingController extends Controller
      */
     public function create()
     {
-        $products = Product::all();
-        $customers = Customer::where('is_active', 1)->get();
-        $invoice = Billing::select("invoice_no")->orderBy('id', 'DESC')->first();
-        $invoice_no = '';
-        if ($invoice == null)
-        {
-            $invoice_no = 'INV1';
-        }else{
-            $ex =  explode('INV', $invoice_no);
-            $invoice_no = $ex[1] + 1;
-        }
-        return view('admin.billings.create', compact(['products', 'invoice_no', 'customers']));
+       return view('admin.sizes.create');
     }
 
     /**
@@ -48,7 +36,8 @@ class BillingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $sizes = size::create($request->all());
+        return redirect()->route('sizes.index')->with('success', 'Size created Successfully');
     }
 
     /**
@@ -70,7 +59,8 @@ class BillingController extends Controller
      */
     public function edit($id)
     {
-        //
+        $size = Size::find($id);
+        return view('admin.sizes.edit', compact('size'));
     }
 
     /**
@@ -82,7 +72,9 @@ class BillingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $size = Size::find($id);
+        $size->update($request->all());
+        return redirect()->route('sizes.index')->with('success', 'Size updated Successfully');
     }
 
     /**
@@ -93,6 +85,8 @@ class BillingController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $sizes = Size::find($id);$size->is_active = 0;
+        $size->update();
+        return redirect()->route('sizes.index')->with('success', 'Size Deleted Successfully');
     }
 }

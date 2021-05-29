@@ -57,12 +57,12 @@
                                             <select class="form-control" name="customer_id">
                                                 <option value="">-select-</option>
                                                 @foreach($customers as $customer)
-                                                    <option value="{{ $customers->id }}">{{ $customers->full_name }}</option>
+                                                    <option value="{{ $customer->id }}">{{ $customer->full_name }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
                                         <div class="col-md-2 pt-5">
-                                            <a href="#" class="btn btn-success btn-sm">Add Customer</a>
+                                            <a href="{{ route('customers.create') }}" class="btn btn-success btn-sm">Add Customer</a>
                                         </div>
                                     </div>
 
@@ -343,12 +343,11 @@
                 this.sp = [{product_id: ''}];
                 this.rowData = [{
                     product_id: '',
-                    color_id: '',
-                    type_id: '',
-                    size_id: '',
-                    gender_id: '',
-                    unit:'',
+                    product_name: '',
                     price: '',
+                    discount: '',
+                    gst:'',
+                    total_price: '',
                     quantity: '',
                 }];
                 axios.post('/fetch_school_products', {

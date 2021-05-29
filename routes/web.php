@@ -19,13 +19,20 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('admin.dashboard');
     });
-    Route::resource('products', 'BlogController');
+    Route::resource('products', 'ProductController');
     Route::resource('invoices', 'BillingController');
 
     Route::get('/home', 'HomeController@index')->name('home');
+
+    // DEEPA
+
+    Route::resource('customers', 'CustomerController');
+    Route::resource('challans', 'ChallanController');
+    Route::resource('sizes', 'SizeController');
+    Route::resource('models', 'ModelController');
+    Route::resource('brands', 'BrandController');
+
 });
 
-// DEEPA
 
-Route::resource('test', 'BillingController');
 

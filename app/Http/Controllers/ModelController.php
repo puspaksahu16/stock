@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Billing;
-use App\Customer;
-use App\Product;
+use App\model;
 use Illuminate\Http\Request;
 
-class BillingController extends Controller
+class ModelController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +14,8 @@ class BillingController extends Controller
      */
     public function index()
     {
-        return view('admin.billings.index');
+        $models = model::all();
+        return view('admin.models.index',compact('models'));
     }
 
     /**
@@ -26,18 +25,7 @@ class BillingController extends Controller
      */
     public function create()
     {
-        $products = Product::all();
-        $customers = Customer::where('is_active', 1)->get();
-        $invoice = Billing::select("invoice_no")->orderBy('id', 'DESC')->first();
-        $invoice_no = '';
-        if ($invoice == null)
-        {
-            $invoice_no = 'INV1';
-        }else{
-            $ex =  explode('INV', $invoice_no);
-            $invoice_no = $ex[1] + 1;
-        }
-        return view('admin.billings.create', compact(['products', 'invoice_no', 'customers']));
+        return view('admin.models.create');
     }
 
     /**
@@ -48,7 +36,8 @@ class BillingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $model = Model::create($request->all());
+        return redirect()->route('models.index')->with('success', 'Model created Successfully');
     }
 
     /**

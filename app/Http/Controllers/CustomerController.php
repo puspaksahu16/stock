@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -13,7 +14,8 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $customers = Customer::all();
+        return view('admin.customers.index', compact('customers'));
     }
 
     /**
@@ -23,7 +25,7 @@ class CustomerController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.customers.create');
     }
 
     /**
@@ -34,7 +36,8 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $customer = Customer::create($request->all());
+        return redirect()->route('customers.index')->with('success', 'Customers created Successfully');
     }
 
     /**
@@ -45,7 +48,8 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        //
+        $customers = Customer::all();
+        return view('admin.customers.show', compact('customers')    );
     }
 
     /**
@@ -56,7 +60,8 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        //
+        $customer = Customer::find($id);
+        return view('admin.customers.edit', compact('customer'));
     }
 
     /**
@@ -68,7 +73,9 @@ class CustomerController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $customer = Customer::find($id);
+        $customer->update($request->all());
+        return redirect()->route('customers.index')->with('success', 'Customer updated Successfully');
     }
 
     /**
@@ -79,6 +86,8 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $customer = Customer::find($id);$customer->is_active = 0;
+        $customer->update();
+        return redirect()->route('customers.index')->with('success', 'Customer Deleted Successfully');
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-
+use App\challan;
 use App\Product;
 use Illuminate\Http\Request;
 
-class BlogController extends Controller
+class ChallanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,8 +15,8 @@ class BlogController extends Controller
      */
     public function index()
     {
-        $products = Product::all();
-        return view('admin.products.index', compact('products'));
+        $challans = Challan::all();
+        return view('admin.challans.index', compact(['challans']));
     }
 
     /**
@@ -26,7 +26,8 @@ class BlogController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $products = Product::all();
+        return view('admin.challans.create', compact(['products']));
     }
 
     /**
@@ -37,15 +38,8 @@ class BlogController extends Controller
      */
     public function store(Request $request)
     {
-        $hsn = Product::where('hsn', $request->hsn)->first();
-
-        if (empty($hsn->id))
-        {
-            $product = Product::create($request->all());
-            return redirect()->route('products.index')->with('success', 'Product created Successfully');
-        }else{
-            return redirect()->back()->with('error', 'HSN Code Already Exist');
-        }
+        $challan = Challan::create($request->all());
+        return redirect()->route('challans.index')->with('success', 'Challan created Successfully');
     }
 
     /**
@@ -67,8 +61,8 @@ class BlogController extends Controller
      */
     public function edit($id)
     {
-        $product = Product::find($id);
-        return view('admin.products.edit', compact('product'));
+        $challan = Challan::find($id);
+        return view('admin.challans.edit', compact('challan'));
     }
 
     /**
@@ -80,20 +74,22 @@ class BlogController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $product = Product::find($id);
-        $product->update($request->all());
-        return redirect()->route('products.index')->with('success', 'Product updated Successfully');
+        $challan = Challan::find($id);
+        $challan->update($request->all());
+        return redirect()->route('challans.index')->with('success', 'Challan updated Successfully');
     }
 
     /**
-     * @param $id
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        $product = Product::find($id);
-        $product->delete();
-        return redirect()->route('products.index')->with('success', 'Product Deleted Successfully');
+        $challan = Challan::find($id);
+        $challan->is_active = 0;
+        $challan->update();
+        return redirect()->route('challans.index')->with('success', 'Challan Deleted Successfully');
     }
 }

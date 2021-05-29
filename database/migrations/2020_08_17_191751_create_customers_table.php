@@ -22,6 +22,7 @@ class CreateCustomersTable extends Migration
             $table->string('state');
             $table->string('zip');
             $table->string('country');
+            $table->boolean('is_active')->dafult(1);
             $table->timestamps();
         });
     }

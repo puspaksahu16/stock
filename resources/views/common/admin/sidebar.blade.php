@@ -24,7 +24,12 @@
             <ul class="metismenu">
                 <li class="@yield('dashboard')"><a href="{{ url('/dashboard') }}" ><i class="typcn typcn-home-outline mr-2"></i> Dashboard</a></li>
                 <li class="@yield('products')"><a href="{{ url('/products') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Products</a></li>
+                <li class="@yield('customers')"><a href="{{ url('/customers') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Customers</a></li>
+                <li class="@yield('challans')"><a href="{{ url('/challans') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Challans</a></li>
                 <li class="@yield('invoices')"><a href="{{ url('/invoices') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Invoices</a></li>
+                <li class="@yield('sizes')"><a href="{{ url('/sizes') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Sizes</a></li>
+                <li class="@yield('brands')"><a href="{{ url('/brands') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Brand</a></li>
+
             </ul>
         </nav>
     </div><!-- sidebar-body -->

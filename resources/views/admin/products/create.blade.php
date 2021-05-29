@@ -30,7 +30,7 @@
     <div class="row">
         <div class="col-md-3">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="body-content">
                 <div class="card mb-4">
                     <div class="card-header">
@@ -44,10 +44,11 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="card mb-4">
+                        <div class="card mb-8">
                             <div class="card-body">
                                 <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
                                     {{ csrf_field()}}
+                                    <div class="col-md-4">
                                     <div class="form-group row">
                                         <label for="Product name" class="col-sm-3 col-form-label font-weight-600">Product name</label>
                                         <div class="col-sm-9">
@@ -56,16 +57,9 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="HSN" class="col-sm-3 col-form-label font-weight-600">HSN Code </label>
+                                        <label for="Price" class="col-sm-3 col-form-label font-weight-600">Product Code</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" type="text" name="hsn" id="hsn">
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group row">
-                                        <label for="description" class="col-sm-3 col-form-label font-weight-600">Description</label>
-                                        <div class="col-sm-9">
-                                            <textarea name="description" ></textarea>
+                                            <input class="form-control" type="text" name="price" id="price">
                                         </div>
                                     </div>
 
@@ -76,8 +70,64 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group row">
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label for="Price" class="col-sm-3 col-form-label font-weight-600">Model No.</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" name="price" id="price">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="Price" class="col-sm-3 col-form-label font-weight-600">Brand</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" name="price" id="price">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Price" class="col-sm-3 col-form-label font-weight-600">Size </label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" name="price" id="price">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="Price" class="col-sm-3 col-form-label font-weight-600">Image </label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="file" name="image" id="price">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group row">
+                                            <label for="Price" class="col-sm-3 col-form-label font-weight-600">Color</label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" name="price" id="price">
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="HSN" class="col-sm-3 col-form-label font-weight-600">HSN Code </label>
+                                            <div class="col-sm-9">
+                                                <input class="form-control" type="text" name="hsn" id="hsn">
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="description" class="col-sm-3 col-form-label font-weight-600">Description</label>
+                                            <div class="col-sm-9">
+                                                <textarea name="description" ></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row" style="text-align: right">
+                                        <div class="col-md-6"></div>
+                                        <div class="col-md-6">
                                         <input type="submit" class="btn btn-primary" >
+                                        </div>
                                     </div>
                                 </form>
                             </div>
