@@ -52,15 +52,25 @@
                                     <div class="form-group row">
                                         <label for="Product name" class="col-sm-3 col-form-label font-weight-600">Product name</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" type="text" name="name" id="name">
+                                            <input class="form-control" value="{{old('name')}}"  type="text" name="name" id="name">
                                         </div>
+                                        @error('name')
+                                        <div class="text-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="Price" class="col-sm-3 col-form-label font-weight-600">Product Code</label>
+                                        <label for="Product Code" class="col-sm-3 col-form-label font-weight-600">Product Code</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" type="text" name="price" id="price">
+                                            <input class="form-control" type="text"  value="{{old('product_code')}}" name="product_code" id="product_code">
                                         </div>
+                                        @error('product_code')
+                                        <div class="text-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group row">
@@ -74,23 +84,29 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group row">
-                                            <label for="Price" class="col-sm-3 col-form-label font-weight-600">Model No.</label>
+                                            <label for="Model No" class="col-sm-3 col-form-label font-weight-600">Model No.</label>
                                             <div class="col-sm-9">
-                                                <input class="form-control" type="text" name="price" id="price">
+                                                <input class="form-control" type="text" name="model_no" id="model_no">
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
-                                            <label for="Price" class="col-sm-3 col-form-label font-weight-600">Brand</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" type="text" name="price" id="price">
-                                            </div>
+                                            <label for="Brand" class="col-sm-3 col-form-label font-weight-600">Brand</label>
+                                            <select class="form-control" name="brand_id">
+                                                <option value="">-select-</option>
+                                                @foreach($brand as $brand)
+                                                    <option value="{{ $brand -> id }}">{{ $brand->brand_name }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="Price" class="col-sm-3 col-form-label font-weight-600">Size </label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" type="text" name="price" id="price">
-                                            </div>
+                                            <label for="Size" class="col-sm-3 col-form-label font-weight-600">Size </label>
+                                            <select class="form-control" name="size_id">
+                                                <option value="">-select-</option>
+                                                @foreach($size as $size)
+                                                    <option value="{{ $size -> id }}">{{ $size->product_size }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="form-group row">
                                             <label for="Price" class="col-sm-3 col-form-label font-weight-600">Image </label>
@@ -102,10 +118,13 @@
 
                                     <div class="col-md-4">
                                         <div class="form-group row">
-                                            <label for="Price" class="col-sm-3 col-form-label font-weight-600">Color</label>
-                                            <div class="col-sm-9">
-                                                <input class="form-control" type="text" name="price" id="price">
-                                            </div>
+                                            <label for="Colour" class="col-sm-3 col-form-label font-weight-600">Color</label>
+                                            <select class="form-control" name="colour_id">
+                                                <option value="">-select-</option>
+                                                @foreach($colour as $colour)
+                                                    <option value="{{ $colour -> id }}">{{ $colour->product_colour }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
 
                                         <div class="form-group row">

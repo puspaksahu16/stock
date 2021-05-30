@@ -19,6 +19,12 @@ class CreateProductsTable extends Migration
             $table->string('hsn');
             $table->text('description');
             $table->string('price');
+            $table->string('brand_id');
+            $table->string('size_id');
+            $table->string('colour_id');
+            $table->string('product_code');
+            $table->string('model_no');
+            $table->string('image');
             $table->boolean('is_active')->default(1);
             $table->timestamps();
         });

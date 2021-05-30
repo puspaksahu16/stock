@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('sizes', 'SizeController');
     Route::resource('models', 'ModelController');
     Route::resource('brands', 'BrandController');
+    Route::resource('colours', 'ColourController');
 
 });
 
