@@ -16,6 +16,7 @@ class CreateSizesTable extends Migration
         Schema::create('sizes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('product_size');
+//            $table->boolean('is_active')->default(1);
             $table->timestamps();
         });
     }

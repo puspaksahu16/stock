@@ -30,6 +30,7 @@
                 <li class="@yield('invoices')"><a href="{{ url('/invoices') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Invoices</a></li>
                 <li class="@yield('sizes')"><a href="{{ url('/sizes') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Sizes</a></li>
                 <li class="@yield('brands')"><a href="{{ url('/brands') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Brand</a></li>
+                <li class="@yield('colours')"><a href="{{ url('/colours') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Colour</a></li>
 
             </ul>
         </nav>

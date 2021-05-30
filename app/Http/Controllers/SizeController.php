@@ -85,7 +85,8 @@ class SizeController extends Controller
      */
     public function destroy($id)
     {
-        $sizes = Size::find($id);$size->is_active = 0;
+        $sizes = Size::find($id);
+        $size->is_active = 0;
         $size->update();
         return redirect()->route('sizes.index')->with('success', 'Size Deleted Successfully');
     }

@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 
+use App\colour;
 use App\Product;
+use App\brand;
+use App\size;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -26,7 +29,10 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.products.create');
+        $brand = brand::all();
+        $size = size::all();
+        $colour = colour::all();
+        return view('admin.products.create',compact(['brand','size','colour']));
     }
 
     /**
@@ -37,9 +43,19 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        $hsn = Product::where('hsn', $request->hsn)->first();
 
-        if (empty($hsn->id))
+        $messages = [
+            'name.required' => 'Product Name is required.',
+            'product_code.required' => 'Product code is required.',
+        ];
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'product_code' => 'required',
+        ], $messages);
+
+        $product_code = Product::where('product_code', $request->product_code)->first();
+
+        if (empty($product_code->id))
         {
             $data = $request->all();
 

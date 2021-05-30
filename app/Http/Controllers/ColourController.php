@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\brand;
+use App\colour;
 use Illuminate\Http\Request;
 
-class BrandController extends Controller
+class ColourController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,8 +14,8 @@ class BrandController extends Controller
      */
     public function index()
     {
-        $brands = brand::all();
-        return view('admin.brands.index',compact('brands'));
+        $colours = colour::all();
+        return view('admin.colours.index',compact('colours'));
     }
 
     /**
@@ -25,7 +25,7 @@ class BrandController extends Controller
      */
     public function create()
     {
-       return view('admin.brands.create');
+        return view('admin.colours.create');
     }
 
     /**
@@ -36,8 +36,8 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
-        $brand = Brand::create($request->all());
-        return redirect()->route('brands.index')->with('success', 'Brand created Successfully');
+        $colour = Colour::create($request->all());
+        return redirect()->route('colours.index')->with('success', 'Colour created Successfully');
     }
 
     /**
@@ -59,8 +59,8 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        $brand = Brand::find($id);
-        return view('admin.brands.edit', compact('brand'));
+        $colour = Colour::find($id);
+        return view('admin.colours.edit', compact('colour'));
     }
 
     /**
@@ -72,9 +72,9 @@ class BrandController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $brand = Brand::find($id);
-        $brand->update($request->all());
-        return redirect()->route('brands.index')->with('success', 'Brand updated Successfully');
+        $colour = Colour::find($id);
+        $colour->update($request->all());
+        return redirect()->route('colours.index')->with('success', 'Colour updated Successfully');
     }
 
     /**
@@ -85,9 +85,8 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-        $brand = Brand::find($id);
-        $brand->is_active = 0;
-        $brand->update();
-        return redirect()->route('brands.index')->with('success', 'Brand Deleted Successfully');
+        $colour = Colour::find($id);$colour->is_active = 0;
+        $colour->update();
+        return redirect()->route('colours.index')->with('success', 'Colour Deleted Successfully');
     }
 }
