@@ -20,6 +20,7 @@ Route::middleware('auth')->group(function () {
         return view('admin.dashboard');
     });
     Route::resource('products', 'ProductController');
+    Route::resource('quotations', 'QuotationController');
     Route::resource('invoices', 'BillingController');
 
     Route::get('/home', 'HomeController@index')->name('home');

@@ -1,6 +1,6 @@
 <nav class="sidebar sidebar-bunker">
     <div class="sidebar-header">
-        <a href="#" class="logo" style="color: #fff"><span>Easy</span> Billing</a>
+        <a href="#" class="logo" style="color: #fff"><span>SAFETY</span> PPE</a>
         {{--<a href="#" class="logo" style="color: #fff"><span>SG</span>Stock</a>--}}
         {{--<a href="index.html" class="logo"><img src="{{ asset('admin/assets/dist/img/logo.png') }}" alt=""></a>--}}
     </div><!--/.sidebar header-->
@@ -25,6 +25,7 @@
                 <li class="@yield('dashboard')"><a href="{{ url('/dashboard') }}" ><i class="typcn typcn-home-outline mr-2"></i> Dashboard</a></li>
                 <li class="@yield('products')"><a href="{{ url('/products') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Products</a></li>
                 <li class="@yield('customers')"><a href="{{ url('/customers') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Customers</a></li>
+                <li class="@yield('quotations')"><a href="{{ url('/quotations') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Quotations</a></li>
                 <li class="@yield('challans')"><a href="{{ url('/challans') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Challans</a></li>
                 <li class="@yield('invoices')"><a href="{{ url('/invoices') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Invoices</a></li>
                 <li class="@yield('sizes')"><a href="{{ url('/sizes') }}"><i class="typcn typcn-puzzle-outline mr-2"></i> Sizes</a></li>
