@@ -49,52 +49,87 @@
                                 <form method="POST" action="{{ route('customers.store') }}">
                                     {{ csrf_field()}}
                                     <div class="form-group row">
-                                        <label for="Customer name" class="col-sm-3 col-form-label font-weight-600">Full name</label>
+                                        <label for="Full Name" class="col-sm-3 col-form-label font-weight-600">Full name</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" type="text" name="full_name" id="full_name">
+                                            <input class="form-control" type="text" value="{{old('full_name')}}" name="full_name" id="full_name">
                                         </div>
+                                        @error('full_name')
+                                        <div class="text-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="HSN" class="col-sm-3 col-form-label font-weight-600">Email </label>
+                                        <label for="Email" class="col-sm-3 col-form-label font-weight-600">Email </label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" type="email" name="email" id="email">
+                                            <input class="form-control" type="email" value="{{old('email')}}" name="email" id="email">
                                         </div>
+                                        @error('email')
+                                        <div class="text-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="description" class="col-sm-3 col-form-label font-weight-600">Mobile</label>
+                                        <label for="Mobile" class="col-sm-3 col-form-label font-weight-600">Mobile</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" type="number" name="mobile" id="mobile">
+                                            <input class="form-control" type="number" value="{{old('mobile')}}" name="mobile" id="mobile">
                                         </div>
+                                        @error('mobile')
+                                        <div class="text-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="Price" class="col-sm-3 col-form-label font-weight-600">Address </label>
+                                        <label for="Address" class="col-sm-3 col-form-label font-weight-600">Address</label>
                                         <div class="col-sm-9">
-                                            <textarea class="form-control" name="address" id="address"></textarea>
+                                            <textarea class="form-control"  name="address" id="address"></textarea>
                                         </div>
+                                        {{--@error('address')--}}
+                                        {{--<div class="text-danger" role="alert">--}}
+                                            {{--{{ $message }}--}}
+                                        {{--</div>--}}
+                                        {{--@enderror--}}
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="State" class="col-sm-3 col-form-label font-weight-600">State </label>
+                                        <label for="State" class="col-sm-3 col-form-label font-weight-600">State</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" name="state" id="state">
+                                            <input class="form-control" type="text" value="{{old('state')}}" name="state" id="state">
                                         </div>
+                                        @error('state')
+                                        <div class="text-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="Zip" class="col-sm-3 col-form-label font-weight-600">Zip </label>
+                                        <label for="Zip" class="col-sm-3 col-form-label font-weight-600">Zip</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" name="zip" id="zip">
+                                            <input class="form-control" type="text" value="{{old('zip')}}" name="zip" id="zip">
                                         </div>
+                                        @error('zip')
+                                        <div class="text-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="Country" class="col-sm-3 col-form-label font-weight-600">Country </label>
+                                        <label for="Country" class="col-sm-3 col-form-label font-weight-600">Country</label>
                                         <div class="col-sm-9">
-                                            <input class="form-control" name="country" id="country">
+                                            <input class="form-control" type="text" value="{{old('country')}}" name="country" id="country">
                                         </div>
+                                        @error('country')
+                                        <div class="text-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group row">

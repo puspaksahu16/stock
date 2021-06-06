@@ -47,10 +47,26 @@ class ProductController extends Controller
         $messages = [
             'name.required' => 'Product Name is required.',
             'product_code.required' => 'Product code is required.',
+            'price.required' => 'Price is required.',
+            'model_no.required' => 'Model Number is required.',
+            'brand_id.required' => 'Brand is required.',
+            'size_id.required' => 'Size is required.',
+            'image.required' => 'Image is required.',
+            'colour_id.required' => 'Colour is required.',
+            'hsn.required' => 'HSN is required.',
+            'description.required' => 'Description is required.'
         ];
         $validatedData = $request->validate([
             'name' => 'required',
-            'product_code' => 'required',
+            'product_code' => 'required|unique:products',
+            'price' => 'required',
+            'model_no' => 'required',
+            'brand_id' => 'required',
+            'size_id' => 'required',
+            'image' => 'required',
+            'colour_id' => 'required',
+            'hsn' => 'required',
+            'description' => 'required'
         ], $messages);
 
         $product_code = Product::where('product_code', $request->product_code)->first();
