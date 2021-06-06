@@ -54,7 +54,7 @@
                                         </div>
                                         <div class="col-md-4">
                                             <label for="Customer" class="">Customer</label>
-                                            <select class="form-control" name="customer_id">
+                                            <select class="form-control" v-model="customer_id" name="customer_id">
                                                 <option value="">-select-</option>
                                                 @foreach($customers as $customer)
                                                     <option value="{{ $customer->id }}">{{ $customer->full_name }}</option>
@@ -69,11 +69,17 @@
                                     <div class="form-group row">
                                         <div class="col-md-6">
                                             <label for="Issue Date" class="">Issue Date</label>
-                                            <input class="form-control" type="date" name="issue_date" id="issue_date">
+                                            <input class="form-control" type="date" v-model="issue_date" name="issue_date" id="issue_date">
                                         </div>
                                         <div class="col-md-6">
-                                            <label for="Due Date" class="">Due Date</label>
-                                            <input class="form-control" type="date" name="due_date" id="due_date">
+                                            <label for="Challan_no" class="">Challan No</label>
+                                            {{--<select class="form-control placeholder-multiple select2-hidden-accessible" @click="getChallan()" v-model="challanNo" name="challan_no" multiple="" data-select2-id="13" tabindex="-1" aria-hidden="true">--}}
+                                            <select class="form-control select2" @click="getChallan()" v-model="challanNo" name="challan_no" multiple="">
+                                                <option value="">-Select-</option>
+                                                @foreach($challans as $challan)
+                                                    <option value="{{ $challan->id }}">{{ $challan->challan_no }}</option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                     </div>
                                     <br>
@@ -81,11 +87,15 @@
                                     <div class="form-group row" v-for="(row, index) in rowData">
 
                                         <div class="col-md-2">
-                                            <label for="HSN Code" class="">HSN Code</label>
-                                            <select @change="getProductDetails(index)" class="form-control search-txt" v-model="row.product_id" name="hsn">
+                                            <label for="Product Code" class="">Product Code</label>
+                                            <select @change="getProductDetails(index)" :readonly="checkReadonly" class="form-control search-txt" v-model="row.product_id" name="product_code">
                                                 <option>-select-</option>
-                                                <option v-for="product in products" :value=" [product.id, product.name, product.price] ">@{{ product.hsn }}</option>
+                                                <option v-for="product in availableProducts" :value=" [product.id, product.name, product.price, product.hsn] ">@{{ product.product_code }}</option>
                                             </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="HSN" class="">HSN</label>
+                                            <input class="form-control" readonly type="text" v-model="row.hsn" name="hsn" id="hsn">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="Product name" class="">Product Name</label>
@@ -93,15 +103,15 @@
                                         </div>
                                         <div class="col-md-1">
                                             <label for="Quantity" class="">Quantity</label>
-                                            <input @keyup="getTotalPrice(index)" @change="getTotalPrice(index)"  class="form-control" type="number" v-model="row.quantity" name="quantity" id="quantity" >
+                                            <input @keyup="getTotalPrice(index)" @change="getTotalPrice(index)" :readonly="checkReadonly" class="form-control" type="number" v-model="row.quantity" name="quantity" id="quantity" >
                                         </div>
-                                        <div class="col-md-2">
-                                            <label for="Price" class="">Price per unit</label>
+                                        <div class="col-md-1">
+                                            <label for="Price" class="">Price/unit</label>
                                             <input class="form-control" readonly v-model="row.price" type="text" name="price" id="price">
                                         </div>
                                         <div class="col-md-1">
                                             <label for="Price" class="">GST</label>
-                                            <select @change="getTotalPrice(index)" class="form-control search-txt" v-model="row.gst" name="gst">
+                                            <select @change="getTotalPrice(index)" class="form-control search-txt" :readonly="checkReadonly" v-model="row.gst" name="gst">
                                                 <option value="">-Select-</option>
                                                 <option value="0">GST@0%</option>
                                                 <option value="3">GST@3%</option>
@@ -113,25 +123,25 @@
                                         </div>
                                         <div class="col-md-1">
                                             <label for="Price" class="">Discount</label>
-                                            <input @keyup="getTotalPrice(index)" @change="getTotalPrice(index)" class="form-control" type="number" placeholder="In %" v-model="row.discount" name="discount" id="discount">
+                                            <input @keyup="getTotalPrice(index)" @change="getTotalPrice(index)" :readonly="checkReadonly" class="form-control" type="number" placeholder="In %" v-model="row.discount" name="discount" id="discount">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="Price" class="">Total Price</label>
                                             <input class="form-control" readonly type="text" v-model="row.total_price" name="total_price" id="total_price">
                                         </div>
                                         <div class="col-md-1 pt-5">
-                                            <button @click="removeItem(index)" class="btn btn-danger btn-sm">Remove</button>
+                                            <button v-if="(challanNo.length == 0)" @click="removeItem(index)" class="btn btn-danger btn-sm">Remove</button>
                                         </div>
                                     </div>
                                     <hr>
-                                    <button @click="addItem()"  class="btn btn-success btn-sm">Add row</button>
+                                    <button v-if="(challanNo.length == 0)" @click="addItem()"  class="btn btn-success btn-sm">Add row</button>
 
-                                    <div class="form-group row">
-                                        <div class="col-md-9"></div>
-                                        <div class="col-md-3">
-                                            <strong>Sub Total : @{{ subTotal }} /-</strong>
-                                        </div>
-                                    </div>
+                                    {{--<div class="form-group row">--}}
+                                        {{--<div class="col-md-9"></div>--}}
+                                        {{--<div class="col-md-3">--}}
+                                            {{--<strong>Sub Total : @{{ subTotal }} /-</strong>--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
                                     <div class="form-group row">
                                         <div class="col-md-9"></div>
                                         <div class="col-md-3">
@@ -150,27 +160,27 @@
                                             <strong>Grant Total : @{{ grandTotal }} /-</strong>
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <div class="col-md-6"></div>
-                                        <div class="col-md-3">
-                                            <label for="Payment Type" class="">Payment Type</label>
-                                            <select class="form-control search-txt" name="payment_type">
-                                                <option value="">-Select-</option>
-                                                <option value="Cash">Cash</option>
-                                                <option value="Bank">Bank</option>
-                                                <option value="Cheque">Cheque</option>
-                                            </select>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <label for="Receive Amount" class="">Receive Amount</label>
-                                            <input class="form-control" type="text" name="receive_amount" placeholder="Receive Amount" id="receive_amount">
-                                        </div>
-                                    </div>
+                                    {{--<div class="form-group row">--}}
+                                        {{--<div class="col-md-6"></div>--}}
+                                        {{--<div class="col-md-3">--}}
+                                            {{--<label for="Payment Type" class="">Payment Type</label>--}}
+                                            {{--<select class="form-control search-txt" v-model="payment_type" name="payment_type">--}}
+                                                {{--<option value="">-Select-</option>--}}
+                                                {{--<option value="Cash">Cash</option>--}}
+                                                {{--<option value="Bank">Bank</option>--}}
+                                                {{--<option value="Cheque">Cheque</option>--}}
+                                            {{--</select>--}}
+                                        {{--</div>--}}
+                                        {{--<div class="col-md-3">--}}
+                                            {{--<label for="Receive Amount" class="">Receive Amount</label>--}}
+                                            {{--<input class="form-control" v-model="receive_amount" type="text" name="receive_amount" placeholder="Receive Amount" id="receive_amount">--}}
+                                        {{--</div>--}}
+                                    {{--</div>--}}
 
                                     <div class="form-group row">
                                         <div class="col-md-6"></div>
                                         <div class="col-md-4">
-                                            <input type="submit" value="Save" class="btn btn-primary btn-lg" >
+                                            <input type="submit" @click="submitData()" value="Save" class="btn btn-primary btn-lg" >
                                         </div>
                                     </div>
                                 {{--</form>--}}
@@ -183,7 +193,8 @@
     </div>
     <!--/.body content-->
     <script>
-        var PRODUCTS = {!! $products !!}
+        var PRODUCTS = {!! $products !!};
+        var AVAILABLE_PRODUCT = {!! $available_products !!};
     </script>
 @endsection
 @push('scripts')
@@ -195,7 +206,14 @@
         el: '#invoice',
         data: {
             products:PRODUCTS,
+            availableProducts:AVAILABLE_PRODUCT,
+            checkReadonly: false,
             subTotal: 0,
+            customer_id: '',
+            issue_date: '',
+            // payment_type: '',
+            // receive_amount: '',
+            challanNo: [],
             discount: 0,
             gst: 0,
             grandTotal: 0,
@@ -204,6 +222,7 @@
                 {
                     product_id: '',
                     product_name: '',
+                    hsn:'',
                     price: '',
                     discount: '',
                     gst:'',
@@ -211,36 +230,33 @@
                     quantity: '',
                 }] //the declared array
         },
-        mounted(){
-            // alert(1);
-            // let list=[];
 
-            // $.each(products, function(key, value) {
-            //     // alert(this.rowData.length);
-            //     // this.subTotal = value.total_price;
-            //     list.push(key);
-            // });
-            // this.products.forEach((value, index) => {
-            //     list.push(list.index);
-            // });
-            // alert(list.length);
-            this.subTotal = subTotal();
-        },
-        computed: {
-            // a computed getter
-            subTotal: function () {
-                // `this` points to the vm instance
-                // let list=[];
-                // this.products.forEach((value, index) => {
-                //     list.push(list.index);
-                // });
-                return 1;
-            }
-        },
         methods:{
+            getChallan(){
+                let that = this;
+                axios.post('/get_challan_details', {
+                    challan_no: that.challanNo,
+                    // challan_no: JSON.stringify(that.challanNo),
+                })
+                    .then(function (response) {
+                        console.log(response);
+                        that.rowData = response.data;
+                        that.availableProducts = that.products;
+                        that.checkReadonly = true;
+
+                        that.getTotalPrice(0);
+                        // let index = sid;
+                        // that.$set(that.sp, [index],response.data);
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
             getProductDetails(index){
                 this.rowData[index].product_name = this.rowData[index].product_id[1];
                 this.rowData[index].price = this.rowData[index].product_id[2];
+                this.rowData[index].hsn = this.rowData[index].product_id[3];
+                this.getTotalPrice(index);
             },
             checkSubTotal(){
                 var st = 0;
@@ -298,12 +314,13 @@
                 var gst = this.rowData[index].gst;
                 var discountPrice = this.checkDiscount(total_price,discount);
                 var gstPrice = this.checkGST(total_price,gst);
-                this.rowData[index].total_price = parseInt(total_price);
+                // this.rowData[index].total_price = parseInt(total_price);
                 // this.rowData[index].total_price = parseInt(total_price) - parseInt(discountPrice) + parseInt(gstPrice);
-                this.subTotal = this.checkSubTotal();
+                this.rowData[index].total_price = parseInt(total_price) + parseInt(gstPrice) - parseInt(discountPrice);
+                // this.subTotal = this.checkSubTotal();
                 this.discount = this.totalDiscount();
                 this.gst = this.totalGST();
-                this.grandTotal = this.checkSubTotal() - this.totalDiscount() + this.totalGST() ;
+                this.grandTotal = this.checkSubTotal() ;
                 // this.grandTotal = parseInt(this.subTotal) + parseInt(this.gst) - parseInt(this.total_price) ;
             },
 
@@ -318,6 +335,7 @@
                     quantity: '',
                 };
                 this.rowData.push(my_object);
+                this.availableProducts = this.availableProducts;
             },
             removeItem(index){
                 this.rowData.splice(index, 1);
@@ -338,38 +356,23 @@
                         console.log(error);
                     });
             },
-            school(){
-                let that = this;
-                this.sp = [{product_id: ''}];
-                this.rowData = [{
-                    product_id: '',
-                    product_name: '',
-                    price: '',
-                    discount: '',
-                    gst:'',
-                    total_price: '',
-                    quantity: '',
-                }];
-                axios.post('/fetch_school_products', {
-                    school_id: that.school_id,
-                })
-                    .then(function (response) {
-                        console.log(response);
-                        that.products = response.data;
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    });
-            },
+
             submitData(){
                 let that = this;
-                axios.post('/stocks', {
-                    stock: that.rowData,
-                    school_id: that.school_id,
+                axios.post('/billing/store_data', {
+                    challan_nos: that.challanNo,
+                    customer_id: that.customer_id,
+                    issue_date: that.issue_date,
+                    total_discount: that.discount,
+                    total_gst: that.gst,
+                    grand_total: that.grandTotal,
+                    product_details: that.rowData,
+                    // payment_type: that.payment_type,
+                    // receive_amount: that.receive_amount,
                 })
                     .then(function (response) {
                         console.log(response);
-                        window.location ="/stocks";
+                        window.location ="/invoices";
                         // swal("Good job!", "You clicked the button!", "success");
                     })
                     .catch(function (error) {

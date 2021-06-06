@@ -47,16 +47,17 @@ class ProductController extends Controller
         $messages = [
             'name.required' => 'Product Name is required.',
             'product_code.required' => 'Product code is required.',
+            'product_code.unique' => 'Product Code Already Exist.',
         ];
         $validatedData = $request->validate([
             'name' => 'required',
-            'product_code' => 'required',
+            'product_code' => 'required|unique:products',
         ], $messages);
 
-        $product_code = Product::where('product_code', $request->product_code)->first();
+//        $product_code = Product::where('product_code', $request->product_code)->first();
 
-        if (empty($product_code->id))
-        {
+//        if (empty($product_code->id))
+//        {
             $data = $request->all();
 
             if($request->hasFile('image')) {
@@ -70,9 +71,9 @@ class ProductController extends Controller
             $product = Product::create($data);
 
             return redirect()->route('products.index')->with('success', 'Product created Successfully');
-        }else{
-            return redirect()->back()->with('error', 'HSN Code Already Exist');
-        }
+//        }else{
+//            return redirect()->back()->with('error', 'Product Code Already Exist');
+//        }
     }
 
     /**
@@ -122,6 +123,6 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->is_active = 0;
         $product->update();
-        return redirect()->route('products.index')->with('success', 'Product Deleted Successfully');
+        return redirect()->route('products.index')->with('success', 'Product Inactive Successfully');
     }
 }

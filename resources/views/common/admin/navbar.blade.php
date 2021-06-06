@@ -112,6 +112,12 @@
                     <li style="margin-right: 30px">
                         {{ Auth::user()->name }}
                     </li>
+                    <li style="margin-right: 30px">
+                        <a href="{{'/profile-edit/'}}" class="">
+                            <i class="typcn typcn-user"></i>
+                            Edit Profile
+                        </a>
+                    </li>
                     <li><a href="{{ route('logout') }}"
                        class=""
                         onclick="event.preventDefault();

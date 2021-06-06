@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\challan;
 use App\Customer;
 use App\Product;
+use App\Profile;
 use App\Quotation;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,8 @@ class QuotationController extends Controller
      */
     public function index()
     {
-        return view('admin.quotations.index');
+        $quotes = Quotation::all();
+        return view('admin.quotations.index', compact('quotes'));
     }
 
     /**
@@ -26,7 +29,7 @@ class QuotationController extends Controller
      */
     public function create()
     {
-        $products = Product::all();
+        $products = Product::where('is_active', 1)->get();
         $customers = Customer::where('is_active', 1)->get();
         $quote = Quotation::select("quote_no")->orderBy('id', 'DESC')->first();
         $quote_no = '';
@@ -34,8 +37,8 @@ class QuotationController extends Controller
         {
             $quote_no = 'QT1';
         }else{
-            $ex =  explode('QT', $quote_no);
-            $quote_no = $ex[1] + 1;
+            $ex =  explode('QT', $quote->quote_no);
+            $quote_no = 'QT'.($ex[1] + 1);
         }
         return view('admin.quotations.create', compact(['products', 'quote_no', 'customers']));
     }
@@ -46,9 +49,22 @@ class QuotationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function storeData(Request $request)
     {
-        //
+        $data = $request->all();
+        $quote = Quotation::select("quote_no")->orderBy('id', 'DESC')->first();
+        $quote_no = '';
+        if ($quote == null)
+        {
+            $quote_no = 'QT1';
+        }else{
+            $ex =  explode('QT', $quote->quote_no);
+            $quote_no = 'QT'.($ex[1] + 1);
+        }
+        $data['quote_no'] = $quote_no;
+        $data['product_details'] = json_encode($request->product_details,true);
+        $quote = Quotation::create($data);
+        return "success";
     }
 
     /**
@@ -59,7 +75,9 @@ class QuotationController extends Controller
      */
     public function show($id)
     {
-        //
+        $quote = Quotation::find($id);
+        $profile = Profile::find(1);
+        return view('admin.quotations.show', compact(['quote', 'profile']));
     }
 
     /**

@@ -55,7 +55,8 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Invoice</th>
+                                <th scope="col">Invoice No</th>
+                                <th scope="col">Customer</th>
                                 <th scope="col">Total Price</th>
                                 <th scope="col">Paid</th>
                                 <th scope="col">Due</th>
@@ -64,25 +65,21 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {{--@foreach($products as $key =>$product)--}}
-                                {{--<tr>--}}
-                                    {{--<th scope="row">{{ $key+1 }}</th>--}}
-                                    {{--<td>{{ $product->name }}</td>--}}
-                                    {{--<td>{{ $product->hsn }}</td>--}}
-                                    {{--<td>{{ $product->price }}</td>--}}
-                                    {{--<td>{{ $product->created_at }}</td>--}}
-                                    {{--<td>--}}
-                                        {{--<div class="btn-group">--}}
-                                            {{--<a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-warning"><i class="typcn typcn-pencil"></i></a>--}}
-                                            {{--<form action="{{ route('products.destroy', $product->id) }}" method="POST">--}}
-                                                {{--{{ csrf_field() }}--}}
-                                                {{--{{ method_field('delete') }}--}}
-                                                {{--<button type="submit" class="btn btn-sm btn-danger"><i class="typcn typcn-trash"></i></button>--}}
-                                            {{--</form>--}}
-                                        {{--</div>--}}
-                                    {{--</td>--}}
-                                {{--</tr>--}}
-                            {{--@endforeach--}}
+                            @foreach($invoices as $key =>$invoice)
+                                <tr>
+                                    <th scope="row">{{ $key+1 }}</th>
+                                    <td>#{{ $invoice->invoice_no }}</td>
+                                    <td>{{ $invoice->customer->full_name }}</td>
+                                    <td>{{ $invoice->grand_total }} /-</td>
+                                    <td>{{ $invoice->total_paid }} /-</td>
+                                    <td>{{ $invoice->grand_total - $invoice->total_paid}} /-</td>
+                                    <td>{{ $invoice->issue_date }}</td>
+                                    <td>
+                                        <a href="{{route('invoices.show', $invoice->id)}}" class="btn btn-sm btn-info"><i class="typcn typcn-eye-outline"></i></a>
+                                        <a href="{{url('/invoices/payment/'. $invoice->id)}}" class="btn btn-sm btn-info" title="Pay"><i class="typcn typcn-credit-card"></i></a>
+                                    </td>
+                                </tr>
+                            @endforeach
                             </tbody>
                         </table>
                     </div>

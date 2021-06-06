@@ -56,14 +56,11 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Challan No</th>
-                                <th scope="col">Date</th>
                                 <th scope="col">Customer Name</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Quantity</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Rate</th>
-                                <th scope="col">Total</th>
-                                <th scope="col">Status</th>
+                                <th scope="col">Total GST</th>
+                                <th scope="col">Total Discount</th>
+                                <th scope="col">Grand Total</th>
+                                <th scope="col">Issue Date</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
@@ -71,24 +68,21 @@
                             @foreach($challans as $key =>$challan)
                                 <tr>
                                     <th scope="row">{{ $key+1 }}</th>
-                                    <td>{{ $challan->challan_no }}</td>
-                                    <td>{{ $challan->date }}</td>
-                                    <td>{{ $challan->customer_name }}</td>
-                                    <td>{{ $challan->product_name }}</td>
-                                    <td>{{ $challan->quantity }}</td>
-                                    <td>{{ $challan->description }}</td>
-                                    <td>{{ $challan->rate }}</td>
-                                    <td>{{ $challan->total_price }}</td>
-                                    {{--<td>{{ $challan->created_at }}</td>--}}
-                                    <td>{{ $challan->is_active == 1 ? 'Active' : "Inactive" }}</td>
+                                    <td>#{{ $challan->challan_no }}</td>
+                                    <td>{{ $challan->customer->full_name }}</td>
+                                    <td>{{ $challan->total_gst }}/-</td>
+                                    <td>{{ $challan->total_discount }}/-</td>
+                                    <td>{{ $challan->grand_total }}/-</td>
+                                    <td>{{ $challan->issue_date }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="{{ route('challans.edit', $challan->id) }}" class="btn btn-sm btn-warning"><i class="typcn typcn-pencil"></i></a>
-                                            <form action="{{ route('challans.destroy', $challan->id) }}" method="POST">
-                                                {{ csrf_field() }}
-                                                {{ method_field('delete') }}
-                                                <button type="submit" class="btn btn-sm btn-danger"><i class="typcn typcn-trash"></i></button>
-                                            </form>
+                                            <a href="" class="btn btn-sm btn-warning"><i class="typcn typcn-pencil"></i></a>
+                                            <a href="{{route('challans.show', $challan->id)}}" class="btn btn-sm btn-info"><i class="typcn typcn-eye-outline"></i></a>
+                                            {{--<form action="{{ route('challans.destroy', $challan->id) }}" method="POST">--}}
+                                                {{--{{ csrf_field() }}--}}
+                                                {{--{{ method_field('delete') }}--}}
+                                                {{--<button type="submit" class="btn btn-sm btn-danger"><i class="typcn typcn-trash"></i></button>--}}
+                                            {{--</form>--}}
                                         </div>
                                     </td>
                                 </tr>

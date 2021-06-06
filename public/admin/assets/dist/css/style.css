@@ -1946,8 +1946,9 @@ table code {
         bottom: 0
     }
     .fixed .sidebar .sidebar-body {
-        height: calc(100vh - 210px);
-        position: relative
+        /*height: calc(100vh - 210px);*/
+        height: calc(100vh - 110px);
+        position: relative;
     }
     .fixed .content-wrapper {
         min-height: calc(100vh - 70px)
@@ -2344,7 +2345,7 @@ table code {
 
 #toTop {
     position: fixed;
-    bottom: 20px;
+    bottom: 35px;
     right: 20px;
     cursor: pointer;
     display: none

@@ -16,14 +16,12 @@ class CreateChallansTable extends Migration
         Schema::create('challans', function (Blueprint $table) {
             $table->increments('id');
             $table->string('challan_no');
-            $table->string('customer_name');
-            $table->date('date');
-            $table->text('address');
-            $table->string('product_name');
-            $table->text('description');
-            $table->string('quantity');
-            $table->string('rate');
-            $table->string('total_price');
+            $table->bigInteger('customer_id');
+            $table->json('product_details');
+            $table->bigInteger('total_discount');
+            $table->bigInteger('total_gst');
+            $table->bigInteger('grand_total');
+            $table->date('issue_date');
             $table->timestamps();
         });
     }

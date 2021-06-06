@@ -58,6 +58,7 @@
                                 <th scope="col">Full Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Mobile</th>
+                                <th scope="col">Contact Person No.</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Action</th>
                             </tr>
@@ -69,12 +70,13 @@
                                     <td>{{ $customer->full_name }}</td>
                                     <td>{{ $customer->email }}</td>
                                     <td>{{ $customer->mobile }}</td>
+                                    <td>{{ $customer->concat_person_no }}</td>
                                     {{--if alse condition in one line--}}
                                     <td>{{ $customer->is_active == 1 ? 'Active' : "Inactive" }}</td>
                                     <td>
                                         <div class="btn-group">
                                             <a href="{{ route('customers.edit', $customer->id) }}" class="btn btn-sm btn-warning"><i class="typcn typcn-pencil"></i></a>
-                                            <a href="{{ route('customers.show', $customer->id) }}" class="btn btn-sm"><i class="typcn typcn-eye"></i></a>
+{{--                                            <a href="{{ route('customers.show', $customer->id) }}" class="btn btn-sm"><i class="typcn typcn-eye"></i></a>--}}
                                             <form action="{{ route('customers.destroy', $customer->id) }}" method="POST">
                                                 {{ csrf_field() }}
                                                 {{ method_field('delete') }}

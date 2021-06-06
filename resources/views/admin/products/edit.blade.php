@@ -47,6 +47,14 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="Product name" class="col-sm-3 col-form-label font-weight-600">Model No</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" value="{{ $product->model_no }}" name="model_no" id="model_no">
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
                                 <label for="HSN" class="col-sm-3 col-form-label font-weight-600">HSN Code </label>
                                 <div class="col-sm-9">
                                     <input class="form-control" type="text" value="{{ $product->hsn }}" name="hsn" id="hsn">
@@ -55,15 +63,24 @@
 
                             <div class="form-group row">
                                 <label for="description" class="col-sm-3 col-form-label font-weight-600">Description</label>
-                                <div class="col-sm-9">
-                                    <textarea name="description" >{{ $product->description }}</textarea>
-                                </div>
+                                <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3">{{ $product->description }}</textarea>
                             </div>
 
                             <div class="form-group row">
                                 <label for="Price" class="col-sm-3 col-form-label font-weight-600">Price </label>
                                 <div class="col-sm-9">
                                     <input class="form-control" value="{{ $product->price }}" type="text" name="price" id="price">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <div class="custom-control col-sm-3 custom-radio custom-control-inline">
+                                    <input {{ $product->is_active == 1 ? 'checked' : '' }} type="radio" id="customRadioInline1" name="is_active" class="custom-control-input">
+                                    <label class="custom-control-label" for="customRadioInline1">Active</label>
+                                </div>
+                                <div class="custom-control col-sm-3 custom-radio custom-control-inline">
+                                    <input type="radio" {{ $product->is_active == 0 ? 'checked' : '' }} id="customRadioInline2" name="is_active" class="custom-control-input">
+                                    <label class="custom-control-label" for="customRadioInline2">Inactive</label>
                                 </div>
                             </div>
 

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('colours')
+@section('laser')
     mm-active
 @endsection
 @section('content')
@@ -7,14 +7,14 @@
         <nav aria-label="breadcrumb" class="col-sm-4 order-sm-last mb-3 mb-sm-0 p-0 ">
             <ol class="breadcrumb d-inline-flex font-weight-600 fs-13 bg-white mb-0 float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Colours</li>
+                <li class="breadcrumb-item active">Laser</li>
             </ol>
         </nav>
         <div class="col-sm-8 header-title p-0">
             <div class="media">
                 <div class="header-icon text-success mr-3"><i class="typcn typcn-puzzle-outline"></i></div>
                 <div class="media-body">
-                    <h1 class="font-weight-bold" style="margin-top: 20px;">Colours</h1>
+                    <h1 class="font-weight-bold" style="margin-top: 20px;">Laser</h1>
                     {{--<small>From now on you will start your activities.</small>--}}
                 </div>
             </div>
@@ -41,11 +41,11 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h6 class="fs-17 font-weight-600 mb-0">Colours</h6>
+                        <h6 class="fs-17 font-weight-600 mb-0">Laser</h6>
                     </div>
-                    <div class="text-right">
-                       <a href="{{ route('colours.create') }}" class="btn btn-primary">+ Add</a>
-                    </div>
+                    {{--<div class="text-right">--}}
+                       {{--<a href="{{ route('invoices.create') }}" class="btn btn-primary">+ Add</a>--}}
+                    {{--</div>--}}
                 </div>
             </div>
             <div class="card-body">
@@ -55,26 +55,27 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Colour</th>
-                                <th scope="col">Created</th>
-                                <th scope="col">Action</th>
+                                <th scope="col">Customer</th>
+                                <th scope="col">Total</th>
+                                <th scope="col">Paid</th>
+                                <th scope="col">Due</th>
+                                <th scope="col">Balance</th>
+                                <th scope="col">Date</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($colours as $key => $colour)
+                            @foreach($payments as $key => $payment)
                                 <tr>
                                     <th scope="row">{{ $key+1 }}</th>
-                                    <td>{{ $colour->product_colour }}</td>
-                                    <td>{{ $colour->created_at }}</td>
+                                    <td>{{ $payment['customer']['full_name'] }}</td>
+                                    <td>{{ $payment['grand_total'] }} /-</td>
+                                    <td>{{ $payment['receive_amount'] }} /-</td>
+                                    <td>{{ $invoice->total_paid }} /-</td>
+                                    <td>{{ $invoice->grand_total - $invoice->total_paid}} /-</td>
+                                    <td>{{ $invoice->issue_date }}</td>
                                     <td>
-                                        <div class="btn-group">
-                                            <a href="{{ route('colours.edit', $colour->id) }}" class="btn btn-sm btn-warning"><i class="typcn typcn-pencil"></i></a>
-                                            {{--<form action="{{ route('colours.destroy', $colour->id) }}" method="POST">--}}
-                                                {{--{{ csrf_field() }}--}}
-                                                {{--{{ method_field('delete') }}--}}
-                                                {{--<button type="submit" class="btn btn-sm btn-danger"><i class="typcn typcn-trash"></i></button>--}}
-                                            {{--</form>--}}
-                                        </div>
+                                        <a href="{{route('invoices.show', $invoice->id)}}" class="btn btn-sm btn-info"><i class="typcn typcn-eye-outline"></i></a>
+                                        <a href="{{url('/invoices/payment/'. $invoice->id)}}" class="btn btn-sm btn-info" title="Pay"><i class="typcn typcn-credit-card"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

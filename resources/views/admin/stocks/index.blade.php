@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('colours')
+@section('stocks')
     mm-active
 @endsection
 @section('content')
@@ -7,14 +7,14 @@
         <nav aria-label="breadcrumb" class="col-sm-4 order-sm-last mb-3 mb-sm-0 p-0 ">
             <ol class="breadcrumb d-inline-flex font-weight-600 fs-13 bg-white mb-0 float-sm-right">
                 <li class="breadcrumb-item"><a href="#">Home</a></li>
-                <li class="breadcrumb-item active">Colours</li>
+                <li class="breadcrumb-item active">Stocks</li>
             </ol>
         </nav>
         <div class="col-sm-8 header-title p-0">
             <div class="media">
                 <div class="header-icon text-success mr-3"><i class="typcn typcn-puzzle-outline"></i></div>
                 <div class="media-body">
-                    <h1 class="font-weight-bold" style="margin-top: 20px;">Colours</h1>
+                    <h1 class="font-weight-bold" style="margin-top: 20px;">Stocks</h1>
                     {{--<small>From now on you will start your activities.</small>--}}
                 </div>
             </div>
@@ -41,10 +41,10 @@
             <div class="card-header">
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
-                        <h6 class="fs-17 font-weight-600 mb-0">Colours</h6>
+                        <h6 class="fs-17 font-weight-600 mb-0">Stocks</h6>
                     </div>
                     <div class="text-right">
-                       <a href="{{ route('colours.create') }}" class="btn btn-primary">+ Add</a>
+                       <a href="{{ route('stocks.create') }}" class="btn btn-primary">+ Add</a>
                     </div>
                 </div>
             </div>
@@ -55,21 +55,30 @@
                             <thead>
                             <tr>
                                 <th scope="col">#</th>
-                                <th scope="col">Colour</th>
-                                <th scope="col">Created</th>
+                                <th scope="col">Product code</th>
+                                <th scope="col">Product name</th>
+                                <th scope="col">Previous Stock In</th>
+                                <th scope="col">Stock In</th>
+                                <th scope="col">Stock Out</th>
+                                <th scope="col">Stock Available</th>
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
                             <tbody>
-                            @foreach($colours as $key => $colour)
+                            @foreach($stocks as $key => $stock)
                                 <tr>
                                     <th scope="row">{{ $key+1 }}</th>
-                                    <td>{{ $colour->product_colour }}</td>
-                                    <td>{{ $colour->created_at }}</td>
+                                    <td>{{ $stock->product->product_code }}</td>
+                                    <td>{{ $stock->product->name }}</td>
+                                    <td>{{ $stock->stock_in - $stock->last_added }}</td>
+                                    <td>{{ $stock->stock_in }}</td>
+                                    <td>{{ $stock->stock_out }}</td>
+                                    <td>{{ $stock->stock_available }}</td>
                                     <td>
                                         <div class="btn-group">
-                                            <a href="{{ route('colours.edit', $colour->id) }}" class="btn btn-sm btn-warning"><i class="typcn typcn-pencil"></i></a>
-                                            {{--<form action="{{ route('colours.destroy', $colour->id) }}" method="POST">--}}
+                                            @if($stock->last_added != 0)
+                                                <a href="{{ url('stocks/delete/'. $stock->id) }}" class="btn btn-sm btn-danger" title="Delete Last Entry"><i class="typcn typcn-trash"></i></a>
+                                            @endif{{--<form action="{{ route('stocks.destroy', $stock->id) }}" method="POST">--}}
                                                 {{--{{ csrf_field() }}--}}
                                                 {{--{{ method_field('delete') }}--}}
                                                 {{--<button type="submit" class="btn btn-sm btn-danger"><i class="typcn typcn-trash"></i></button>--}}

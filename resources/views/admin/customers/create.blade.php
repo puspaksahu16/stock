@@ -70,6 +70,20 @@
                                     </div>
 
                                     <div class="form-group row">
+                                        <label for="Contact Person No." class="col-sm-3 col-form-label font-weight-600">Contact Person No.</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="number" name="concat_person_no" id="concat_person_no">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="GST No." class="col-sm-3 col-form-label font-weight-600">GST No.</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text" name="gst" id="gst">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
                                         <label for="Price" class="col-sm-3 col-form-label font-weight-600">Address </label>
                                         <div class="col-sm-9">
                                             <textarea class="form-control" name="address" id="address"></textarea>
