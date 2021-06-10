@@ -48,7 +48,7 @@
                             <div class="card-body">
                                 <form method="POST" action="{{ route('products.store') }}" enctype="multipart/form-data">
                                     {{ csrf_field()}}
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                     <div class="form-group row">
                                         <label for="Product name" class="col-form-label font-weight-600">Product name</label>
                                         <div>
@@ -62,7 +62,7 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="Product Code" class="col-form-label font-weight-600">Product Code</label>
+                                        <label for="Product Code" class="col-form-label font-weight-600">Product Code</label>&nbsp;
                                         <div>
                                             <input class="form-control" type="text"  value="{{old('product_code')}}" name="product_code" id="product_code">
                                         </div>
@@ -74,7 +74,7 @@
                                     </div>
 
                                         <div class="form-group row">
-                                            <label for="Model No" class=" col-form-label font-weight-600">Model No.</label>
+                                            <label for="Model No" class=" col-form-label font-weight-600">Model No.</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                             <div>
                                                 <input class="form-control" type="text" value="{{old('model_no')}}" name="model_no" id="model_no">
                                             </div>
@@ -85,12 +85,35 @@
                                             @enderror
                                         </div>
 
+                                        <div class="form-group row">
+                                            <label for="HSN" class="col-form-label font-weight-600">HSN Code</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <div>
+                                                <input class="form-control" type="text" value="{{old('hsn')}}" name="hsn" id="hsn">
+                                            </div>
+                                            @error('hsn')
+                                            <div class="text-danger" role="alert">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label for="Price" class="col-form-label font-weight-600">Price</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <div>
+                                                <input class="form-control" type="text" value="{{old('price')}}" name="price" id="price">
+                                            </div>
+                                            @error('price')
+                                            <div class="text-danger" role="alert">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
+                                        </div>
 
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <div class="form-group row">
-                                            <label for="Image" class="col-form-label font-weight-600">Image </label>
+                                            <label for="Image" class="col-form-label font-weight-600">Image</label>
                                             <div class="col-sm-9">
                                                 <input class="form-control" type="file" value="{{old('image')}}" name="image" id="image">
                                             </div>
@@ -101,8 +124,8 @@
                                             @enderror
                                         </div>
                                         <div class="form-group row">
-                                            <label for="Colour" class="col-form-label font-weight-600">Color</label>
-                                            <div>
+                                            <label for="Colour" class="col-form-label font-weight-600">Color</label>&nbsp;&nbsp;
+                                            <div class="col-sm-9">
                                                 <select class="form-control" name="colour_id">
                                                     <option value="">-select-</option>
                                                     @foreach($colour as $colour)
@@ -118,62 +141,48 @@
                                         </div>
                                         <div class="form-group row">
                                             <label for="Brand" class="col-form-label font-weight-600">Brand</label>
-                                            <div>
+                                            <div class="col-sm-9">
                                                 <select class="form-control" name="brand_id">
                                                     <option value="">-select-</option>
                                                     @foreach($brand as $brand)
-                                                        <option value="{{ $brand -> id }}">{{ $brand->brand_name }}</option>
+                                                        <option {{old('brand_id') == $brand -> id ? "selected" : ''}} value="{{ $brand -> id }}">{{ $brand->brand_name }}</option>
                                                     @endforeach
                                                 </select>
+                                                @error('brand_id')
+                                                <div class="text-danger" role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
                                             </div>
                                         </div>
                                         <div class="form-group row">
-                                            <label for="Size" class="col-form-label font-weight-600">Size </label>
-                                            <div>
+                                            <label for="Size" class="col-form-label font-weight-600">Size</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                                            <div class="col-sm-9">
                                                 <select class="form-control" name="size_id">
                                                     <option value="">-select-</option>
                                                     @foreach($size as $size)
-                                                        <option value="{{ $size -> id }}">{{ $size->product_size }}</option>
+                                                        <option value= {{old('colour_id') == $colour -> id ? "selected" : ''}} "{{ $size -> id }}">{{ $size->product_size }}</option>
                                                     @endforeach
                                                 </select>
+                                                @error('size_id')
+                                                <div class="text-danger" role="alert">
+                                                    {{ $message }}
+                                                </div>
+                                                @enderror
                                             </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="description" class=" col-form-label font-weight-600">Description</label>
+                                            <textarea name="description" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                                            @error('description')
+                                            <div class="text-danger" role="alert">
+                                                {{ $message }}
+                                            </div>
+                                            @enderror
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
-                                        <div class="form-group row">
-                                            <label for="Price" class="col-form-label font-weight-600">Price </label>
-                                            <div>
-                                                <input class="form-control" type="text" value="{{old('price')}}" name="price" id="price">
-                                            </div>
-                                            @error('price')
-                                            <div class="text-danger" role="alert">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="HSN" class="col-form-label font-weight-600">HSN Code </label>
-                                            <div>
-                                                <input class="form-control" type="text" value="{{old('hsn')}}" name="hsn" id="hsn">
-                                            </div>
-                                            @error('hsn')
-                                            <div class="text-danger" role="alert">
-                                                {{ $message }}
-                                            </div>
-                                            @enderror
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="description" class="col-form-label font-weight-600">Description</label>
-                                            <div>
-                                                <textarea name="description" ></textarea>
-                                            </div>
-                                            {{--@error('description')--}}
-                                            {{--<div class="text-danger" role="alert">--}}
-                                                {{--{{ $message }}--}}
-                                            {{--</div>--}}
-                                            {{--@enderror--}}
-                                        </div>
+                                    <div class="col-md-12">
 
                                     </div>
 

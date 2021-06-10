@@ -54,7 +54,8 @@ class ProductController extends Controller
             'image.required' => 'Image is required.',
             'colour_id.required' => 'Colour is required.',
             'hsn.required' => 'HSN is required.',
-            'description.required' => 'Description is required.'
+            'description.required' => 'Description is required.',
+            'product_code.unique' => 'Product Code Already Exist.',
         ];
         $validatedData = $request->validate([
             'name' => 'required',
@@ -69,10 +70,10 @@ class ProductController extends Controller
             'description' => 'required'
         ], $messages);
 
-        $product_code = Product::where('product_code', $request->product_code)->first();
+//        $product_code = Product::where('product_code', $request->product_code)->first();
 
-        if (empty($product_code->id))
-        {
+//        if (empty($product_code->id))
+//        {
             $data = $request->all();
 
             if($request->hasFile('image')) {
@@ -86,9 +87,9 @@ class ProductController extends Controller
             $product = Product::create($data);
 
             return redirect()->route('products.index')->with('success', 'Product created Successfully');
-        }else{
-            return redirect()->back()->with('error', 'HSN Code Already Exist');
-        }
+//        }else{
+//            return redirect()->back()->with('error', 'Product Code Already Exist');
+//        }
     }
 
     /**
@@ -110,8 +111,12 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
+
+        $brand = brand::all();
+        $size = size::all();
+        $colour = colour::all();
         $product = Product::find($id);
-        return view('admin.products.edit', compact('product'));
+        return view('admin.products.edit', compact(['product','brand','size','colour']));
     }
 
     /**
@@ -123,8 +128,20 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $brand = brand::all();
+        $size = size::all();
+        $colour = colour::all();
         $product = Product::find($id);
-        $product->update($request->all());
+        $data = $request->all();
+        if($request->hasFile('image')) {
+            $img = $request->file('image');
+            $extension = $img->getClientOriginalExtension();
+            $fileName = 'product'.date('his').rand().".".$extension;
+            $img->move(public_path('images/product_image'), $fileName);
+            $data['image'] = $fileName;
+        }
+
+        $product->update($data);
         return redirect()->route('products.index')->with('success', 'Product updated Successfully');
     }
 
@@ -138,6 +155,6 @@ class ProductController extends Controller
         $product = Product::find($id);
         $product->is_active = 0;
         $product->update();
-        return redirect()->route('products.index')->with('success', 'Product Deleted Successfully');
+        return redirect()->route('products.index')->with('success', 'Product Inactive Successfully');
     }
 }

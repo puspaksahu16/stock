@@ -49,7 +49,7 @@
                                 <form method="POST" action="{{ route('customers.store') }}">
                                     {{ csrf_field()}}
                                     <div class="form-group row">
-                                        <label for="Full Name" class="col-sm-3 col-form-label font-weight-600">Full name</label>
+                                        <label for="Full Name" class="col-sm-3 col-form-label font-weight-600">Name</label>
                                         <div class="col-sm-9">
                                             <input class="form-control" type="text" value="{{old('full_name')}}" name="full_name" id="full_name">
                                         </div>
@@ -85,15 +85,39 @@
                                     </div>
 
                                     <div class="form-group row">
-                                        <label for="Address" class="col-sm-3 col-form-label font-weight-600">Address</label>
+                                        <label for="Contact Person No." class="col-sm-3 col-form-label font-weight-600">Contact Person No.</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="number" name="concat_person_no" id="concat_person_no">
+                                        </div>
+                                        @error('concat_person_no')
+                                        <div class="text-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="GST No." class="col-sm-3 col-form-label font-weight-600">GST No.</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text" name="gst" id="gst">
+                                        </div>
+                                        @error('gst')
+                                        <div class="text-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label for="Price" class="col-sm-3 col-form-label font-weight-600">Address </label>
                                         <div class="col-sm-9">
                                             <textarea class="form-control"  name="address" id="address"></textarea>
                                         </div>
-                                        {{--@error('address')--}}
-                                        {{--<div class="text-danger" role="alert">--}}
-                                            {{--{{ $message }}--}}
-                                        {{--</div>--}}
-                                        {{--@enderror--}}
+                                        @error('address')
+                                        <div class="text-danger" role="alert">
+                                            {{ $message }}
+                                        </div>
+                                        @enderror
                                     </div>
 
                                     <div class="form-group row">

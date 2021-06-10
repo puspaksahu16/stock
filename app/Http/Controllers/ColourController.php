@@ -36,6 +36,14 @@ class ColourController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'product_colour.required' => 'Product Colour is required.',
+        ];
+        $validatedData = $request->validate([
+            'product_colour' => 'required',
+            ], $message
+        );
+
         $colour = Colour::create($request->all());
         return redirect()->route('colours.index')->with('success', 'Colour created Successfully');
     }

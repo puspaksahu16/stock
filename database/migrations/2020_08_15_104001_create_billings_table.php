@@ -15,19 +15,14 @@ class CreateBillingsTable extends Migration
     {
         Schema::create('billings', function (Blueprint $table) {
             $table->increments('id');
+            $table->json('challan_nos');
             $table->string('invoice_no');
             $table->integer('customer_id');
+            $table->json('product_details');
             $table->date('issue_date');
-            $table->date('due_date');
-            $table->string('po_no');
-            $table->string('sub_total');
-            $table->string('discount');
-            $table->string('gst');
-            $table->string('total');
-            $table->string('receive_amount');
-            $table->string('due_amount');
-            $table->string('payment_type');
-            $table->string('narration');
+            $table->string('total_discount');
+            $table->string('total_gst');
+            $table->string('grand_total');
             $table->timestamps();
         });
     }

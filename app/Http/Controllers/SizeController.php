@@ -36,6 +36,14 @@ class SizeController extends Controller
      */
     public function store(Request $request)
     {
+
+        $message = [
+            'product_size.required' => 'Product Size is required.',
+        ];
+        $validatedData = $request->validate([
+            'product_size' => 'required',
+        ], $message);
+
         $sizes = size::create($request->all());
         return redirect()->route('sizes.index')->with('success', 'Size created Successfully');
     }

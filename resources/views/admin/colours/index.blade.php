@@ -69,11 +69,11 @@
                                     <td>
                                         <div class="btn-group">
                                             <a href="{{ route('colours.edit', $colour->id) }}" class="btn btn-sm btn-warning"><i class="typcn typcn-pencil"></i></a>
-                                            <form action="{{ route('colours.destroy', $colour->id) }}" method="POST">
-                                                {{ csrf_field() }}
-                                                {{ method_field('delete') }}
-                                                <button type="submit" class="btn btn-sm btn-danger"><i class="typcn typcn-trash"></i></button>
-                                            </form>
+                                            {{--<form action="{{ route('colours.destroy', $colour->id) }}" method="POST">--}}
+                                                {{--{{ csrf_field() }}--}}
+                                                {{--{{ method_field('delete') }}--}}
+                                                {{--<button type="submit" class="btn btn-sm btn-danger"><i class="typcn typcn-trash"></i></button>--}}
+                                            {{--</form>--}}
                                         </div>
                                     </td>
                                 </tr>

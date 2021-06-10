@@ -50,7 +50,7 @@
                                 <div class="form-group row">
                                     <div class="col-md-6">
                                         <label for="Challan No" class="">Challan No</label>
-                                        <input class="form-control"  type="text" name="challan_no" id="challan_no">
+                                        <input class="form-control" readonly value="#{{$challan_no}}" type="text" name="challan_no" id="challan_no">
                                     </div>
                                     {{--<div class="col-md-4">--}}
                                         {{--<label for="Customer" class="">Customer</label>--}}
@@ -63,19 +63,20 @@
                                     {{--</div>--}}
                                     <div class="col-md-6">
                                         <label for="Customer Name" class="">Customer Name</label>
-                                        <input class="form-control" type="text" name="customer_name" id="customer_name">
+                                        <select class="form-control" v-model="customer_id" name="customer_id">
+                                            <option value="">-select-</option>
+                                            @foreach($customers as $customer)
+                                                <option value="{{ $customer->id }}">{{ $customer->full_name }}</option>
+                                            @endforeach
+                                        </select>
                                     </div>
 
                                 </div>
 
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                        <label for="Date" class="">Date</label>
-                                        <input class="form-control" type="date" name="date" id="date">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label for="Address" class="">Address</label>
-                                        <textarea name="address" id="address"></textarea>
+                                        <label for="Date" class="">Issue Date</label>
+                                        <input class="form-control" v-model="issue_date" type="date" name="date" id="date">
                                     </div>
                                 </div>
                                 <br>
@@ -109,11 +110,15 @@
                                     <div class="form-group row" v-for="(row, index) in rowData">
 
                                         <div class="col-md-2">
-                                            <label for="HSN Code" class="">HSN Code</label>
-                                            <select @change="getProductDetails(index)" class="form-control search-txt" v-model="row.product_id" name="hsn">
+                                            <label for="HSN Code" class="">Product Code</label>
+                                            <select @change="getProductDetails(index)" class="form-control search-txt" v-model="row.product_id" name="product_code">
                                                 <option>-select-</option>
-                                                <option v-for="product in products" :value=" [product.id, product.name, product.price] ">@{{ product.hsn }}</option>
+                                                <option v-for="product in products" :value=" [product.id, product.name, product.price, product.hsn] ">@{{ product.product_code }}</option>
                                             </select>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <label for="Product name" class="">HSN</label>
+                                            <input class="form-control" readonly type="text" v-model="row.hsn" name="hsn" id="hsn">
                                         </div>
                                         <div class="col-md-2">
                                             <label for="Product name" class="">Product Name</label>
@@ -123,8 +128,8 @@
                                             <label for="Quantity" class="">Quantity</label>
                                             <input @keyup="getTotalPrice(index)" @change="getTotalPrice(index)"  class="form-control" type="number" v-model="row.quantity" name="quantity" id="quantity" >
                                         </div>
-                                        <div class="col-md-2">
-                                            <label for="Price" class="">Price per unit</label>
+                                        <div class="col-md-1">
+                                            <label for="Price" class="">Price/unit</label>
                                             <input class="form-control" readonly v-model="row.price" type="text" name="price" id="price">
                                         </div>
                                         <div class="col-md-1">
@@ -156,9 +161,28 @@
                                 <button @click="addItem()"  class="btn btn-success btn-sm">Add row</button>
 
                                 <div class="form-group row">
+                                    <div class="col-md-9"></div>
+                                    <div class="col-md-3">
+                                        <strong>Discount : @{{ discount }} /-</strong>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-9"></div>
+                                    <div class="col-md-3">
+                                        <strong>GST : @{{ gst }} /-</strong>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-9"></div>
+                                    <div class="col-md-3">
+                                        <strong>Grant Total : @{{ grandTotal }} /-</strong>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
                                     <div class="col-md-6"></div>
-                                    <div class="col-md-6">
-                                        <input type="submit" value="Save" class="btn btn-primary btn-lg" >
+                                    <div class="col-md-4">
+                                        <input type="submit" @click="submitData()" value="Save" class="btn btn-primary btn-lg" >
                                     </div>
                                 </div>
                                 {{--</form>--}}
@@ -172,7 +196,8 @@
     <!--/.body content-->
 
     <script>
-        var PRODUCTS = {!! $products !!}
+        var PRODUCTS = {!! $products !!};
+        var AVAILABLE_PRODUCT = {!! $available_products !!};
     </script>
 @endsection
 
@@ -185,7 +210,9 @@
         var challan = new Vue({
             el: '#challan',
             data: {
-                products:PRODUCTS,
+                products:AVAILABLE_PRODUCT,
+                issue_date: '',
+                customer_id: '',
                 subTotal: 0,
                 discount: 0,
                 gst: 0,
@@ -195,6 +222,7 @@
                     {
                         product_id: '',
                         product_name: '',
+                        hsn: '',
                         price: '',
                         discount: '',
                         gst:'',
@@ -220,6 +248,8 @@
                 getProductDetails(index){
                     this.rowData[index].product_name = this.rowData[index].product_id[1];
                     this.rowData[index].price = this.rowData[index].product_id[2];
+                    this.rowData[index].hsn = this.rowData[index].product_id[3];
+                    this.getTotalPrice(index);
                 },
                 checkSubTotal(){
                     var st = 0;
@@ -277,12 +307,13 @@
                     var gst = this.rowData[index].gst;
                     var discountPrice = this.checkDiscount(total_price,discount);
                     var gstPrice = this.checkGST(total_price,gst);
-                    this.rowData[index].total_price = parseInt(total_price);
+                    // this.rowData[index].total_price = parseInt(total_price);
                     // this.rowData[index].total_price = parseInt(total_price) - parseInt(discountPrice) + parseInt(gstPrice);
-                    this.subTotal = this.checkSubTotal();
+                    this.rowData[index].total_price = parseInt(total_price) + parseInt(gstPrice) - parseInt(discountPrice);
+                    // this.subTotal = this.checkSubTotal();
                     this.discount = this.totalDiscount();
                     this.gst = this.totalGST();
-                    this.grandTotal = this.checkSubTotal() - this.totalDiscount() + this.totalGST() ;
+                    this.grandTotal = this.checkSubTotal() ;
                     // this.grandTotal = parseInt(this.subTotal) + parseInt(this.gst) - parseInt(this.total_price) ;
                 },
 
@@ -305,39 +336,19 @@
                             console.log(error);
                         });
                 },
-                school(){
-                    let that = this;
-                    this.sp = [{product_id: ''}];
-                    this.rowData = [{
-                        product_id: '',
-                        color_id: '',
-                        type_id: '',
-                        size_id: '',
-                        gender_id: '',
-                        unit:'',
-                        price: '',
-                        quantity: '',
-                    }];
-                    axios.post('/fetch_school_products', {
-                        school_id: that.school_id,
-                    })
-                        .then(function (response) {
-                            console.log(response);
-                            that.products = response.data;
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                },
                 submitData(){
                     let that = this;
-                    axios.post('/stocks', {
-                        stock: that.rowData,
-                        school_id: that.school_id,
+                    axios.post('/challans/store_data', {
+                        customer_id: that.customer_id,
+                        issue_date: that.issue_date,
+                        total_discount: that.discount,
+                        total_gst: that.gst,
+                        grand_total: that.grandTotal,
+                        product_details: that.rowData,
                     })
                         .then(function (response) {
                             console.log(response);
-                            window.location ="/stocks";
+                            window.location ="/challans";
                             // swal("Good job!", "You clicked the button!", "success");
                         })
                         .catch(function (error) {

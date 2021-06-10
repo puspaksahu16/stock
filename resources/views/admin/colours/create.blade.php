@@ -48,12 +48,15 @@
                             <div class="card-body">
                                 <form method="POST" action="{{ route('colours.store') }}" enctype="multipart/form-data">
                                     {{ csrf_field()}}
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <div class="form-group row">
-                                            <label for="Colour name" class="col-sm-6 col-form-label font-weight-600">Colour name</label>
-                                            <div class="col-md-6">
-                                                <input class="form-control" type="text" name="product_colour" id="product_colour">
+                                            <label for="Colour name" class="col-form-label font-weight-600">Colour name</label>
+                                              <input class="form-control" type="text" name="product_colour" id="product_colour">
+                                            @error('product_colour')
+                                            <div class="text-danger" role="alert">
+                                                {{ $message }}
                                             </div>
+                                            @enderror
                                         </div>
                                     </div>
 

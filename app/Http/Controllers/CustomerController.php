@@ -36,6 +36,30 @@ class CustomerController extends Controller
      */
     public function store(Request $request)
     {
+        $messages = [
+            'full_name.required' => 'Full Name is required.',
+            'email.required' => 'Email is required.',
+            'mobile.required' => 'Mobile is required.',
+            'concat_person_no.required' => 'Contact Person No is required.',
+            'gst.required' => 'GST No is required.',
+            'address.required' => 'Address is required.',
+            'state.required' => 'State is required.',
+            'zip.required' => 'Zip is required.',
+            'country.required' => 'Country is required.'
+        ];
+        $validatedData = $request->validate([
+            'full_name' => 'required',
+            'email' => 'required',
+            'mobile' => 'required',
+            'concat_person_no' => 'required',
+            'gst' => 'required',
+            'address' => 'required',
+            'state' => 'required',
+            'zip' => 'required',
+            'country' => 'required'
+        ], $messages);
+
+
         $customer = Customer::create($request->all());
         return redirect()->route('customers.index')->with('success', 'Customers created Successfully');
     }
@@ -48,24 +72,6 @@ class CustomerController extends Controller
      */
     public function show($id)
     {
-        $messages = [
-            'full_name.required' => 'Full Name is required.',
-            'email.required' => 'Email is required.',
-            'mobile.required' => 'Mobile is required.',
-            'address.required' => 'Address is required.',
-            'state.required' => 'State is required.',
-            'zip.required' => 'Zip is required.',
-            'country.required' => 'Country is required.'
-        ];
-        $validatedData = $request->validate([
-            'full_name' => 'required',
-            'email' => 'required',
-            'mobile' => 'required',
-            'address' => 'required',
-            'state' => 'required',
-            'zip' => 'required',
-            'country' => 'required'
-        ], $messages);
 
         $customers = Customer::all();
         return view('admin.customers.show', compact('customers')    );

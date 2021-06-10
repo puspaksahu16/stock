@@ -36,6 +36,13 @@ class BrandController extends Controller
      */
     public function store(Request $request)
     {
+        $message = [
+            'brand_name.required' => 'Brand Name is required.',
+        ];
+        $validatedData = $request->validate([
+            'brand_name' => 'required'
+        ], $message);
+
         $brand = Brand::create($request->all());
         return redirect()->route('brands.index')->with('success', 'Brand created Successfully');
     }

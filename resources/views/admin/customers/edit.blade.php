@@ -40,7 +40,7 @@
                             {{ csrf_field()}}
                             {{ method_field('put')}}
                             <div class="form-group row">
-                                <label for="Customer name" class="col-sm-3 col-form-label font-weight-600">Customer name</label>
+                                <label for="Customer name" class="col-sm-3 col-form-label font-weight-600">Full name</label>
                                 <div class="col-sm-9">
                                     <input class="form-control" type="text" value="{{ $customer->full_name }}" name="full_name" id="full_name">
                                 </div>
@@ -61,9 +61,23 @@
                             </div>
 
                             <div class="form-group row">
+                                <label for="Contact Person No." class="col-sm-3 col-form-label font-weight-600">Contact Person No.</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="number" value="{{ $customer->concat_person_no }}" name="concat_person_no" id="concat_person_no">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="GST No." class="col-sm-3 col-form-label font-weight-600">GST No.</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control" type="text" value="{{ $customer->gst }}" name="gst" id="gst">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
                                 <label for="Address" class="col-sm-3 col-form-label font-weight-600">Address</label>
                                 <div class="col-sm-9">
-                                    <textarea name="address" >{{ $customer->address }}</textarea>
+                                    <textarea name="address" class="form-control" id="exampleFormControlTextarea1" rows="3">{{ $customer->address }}</textarea>
                                 </div>
                             </div>
 

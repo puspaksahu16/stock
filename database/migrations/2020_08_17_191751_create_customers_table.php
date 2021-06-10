@@ -18,11 +18,13 @@ class CreateCustomersTable extends Migration
             $table->string('full_name');
             $table->string('email');
             $table->string('mobile');
+            $table->string('concat_person_no')->nullable();
+            $table->string('gst')->nullable();
             $table->string('address');
             $table->string('state');
             $table->string('zip');
             $table->string('country');
-            $table->boolean('is_active')->dafult(1);
+            $table->tinyInteger('is_active')->default(1);
             $table->timestamps();
         });
     }
